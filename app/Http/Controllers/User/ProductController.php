@@ -3,17 +3,20 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\User\EditProductRequest;
 use App\Http\Requests\User\Product\UserProductStoreRequest;
 use App\Http\Requests\User\Product\UserProductUpdateRequest;
 use App\Http\Resources\User\Product\ProductIndexResource;
 use App\Http\Resources\User\Product\UserProductStoreResource;
 use App\Http\Resources\User\Product\UserProductUpdateResource;
+use App\Models\Category;
 use App\Models\Product;
 use App\Services\User\ProductService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ProductController extends Controller
@@ -39,17 +42,20 @@ class ProductController extends Controller
 
     }
 
-    public function edit(): Factory|View|Application
+    public function edit($id): Factory|View|Application
     {
-        return view('user/product/edit');
+        $product = Product::findOrFail($id);
+        $categories = Category::all();
+        return view('user/product/edit', compact('product', 'categories'));
 
     }
 
-    public function update(Product $product, UserProductUpdateRequest $request): array
+    public function update(UserProductUpdateRequest $request,Product $product,): RedirectResponse
     {
         $data = $request->validated();
         $product = ProductService::update($product, $data);
-        return UserProductUpdateResource::make($product)->resolve();
+        $resourceProduct = UserProductUpdateResource::make($product)->resolve();
+        return redirect()->route('user.product.index',compact('resourceProduct'))->with('success', 'Продукт успешно обновлён');
     }
 
     public function destroy(Product $product): JsonResponse

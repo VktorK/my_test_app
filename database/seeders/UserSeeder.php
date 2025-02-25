@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
     public function run()
     {
         $roleAdmin = Role::admin()->pluck('id')->first();
-        $admin = ['name'=>'admin','email'=>'admin@gmail.com','password'=>bcrypt('123456')];
+        $admin = ['first_name'=>'Dmitrii', 'last_name' => 'Kyrochkin','email'=>'admin@gmail.com','password'=>bcrypt('123456')];
 
         $user = User::firstOrCreate(
             ['email' => $admin['email']],

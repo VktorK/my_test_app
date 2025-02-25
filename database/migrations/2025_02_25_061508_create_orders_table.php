@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('customer_name');
-            $table->dateTime('order_date');
             $table->string('order_status')->default('новый');
             $table->text('comment')->nullable();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->integer('product_qty')->default('1');
             $table->timestamps();
             $table->softDeletes();
 

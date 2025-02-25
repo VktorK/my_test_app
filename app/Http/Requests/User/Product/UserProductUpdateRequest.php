@@ -15,10 +15,10 @@ class UserProductUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'nullable|string|min:3|max:255',
-            'description' => 'nullable|string|min:20|max:1000',
-            'price' => 'nullable|numeric|min:0,01',
-            'category_id' => 'nullable|integer|exists:categories,id',
+            'title' => 'nullable|string',
+            'description' => 'nullable|string',
+            'price' => 'nullable|numeric',
+            'category_id' => 'nullable|exists:categories,id',
         ];
     }
 
