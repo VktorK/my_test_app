@@ -14,11 +14,12 @@ class UserProductStoreRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            'title' => 'require|string|min:3',
-            'description' => 'require|string|min:20',
-            'price' => 'require|decimal',
-            'category_id' => 'require|integer|exists:categories,id'
+            'title' => 'required|string|min:3',
+            'description' => 'required|string|min:20',
+            'price' => 'required|numeric|min:1',
+            'category_id' => 'required|integer|exists:categories,id'
         ];
     }
 }

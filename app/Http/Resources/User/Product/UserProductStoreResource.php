@@ -16,9 +16,11 @@ class UserProductStoreResource extends JsonResource
     public function toArray($request): array|\JsonSerializable|\Illuminate\Contracts\Support\Arrayable
     {
         return [
+        'id'=> $this->id,
         'title' => $this->title,
         'description' => $this->description,
-        'price' => $this->price
+        'price' => $this->price,
+        'category_title' => $this->category->title
     ];
     }
 }

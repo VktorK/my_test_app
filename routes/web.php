@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\User\CategoryController;
 use App\Http\Controllers\User\ProductController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,15 +18,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('welcome');
 
 Route::get('/jquery', function () {
     return view('jquery');
 });
 
-Route::get('/register', function () {
-    return view('register');
-});
+Route::get('/users/register',[UserController::class,'create'])->name('user.register');
+Route::get('/users/login',[UserController::class,'login'])->name('user.login');
+Route::post('/users/login',[UserController::class,'store'])->name('user.store');
+Route::get('/',[UserController::class,'logout'])->name('user.logout');
+
 
 Route::get('/registerUser', function () {
     echo '1111111';
@@ -42,6 +45,10 @@ Route::get('/products/{product}/edit',
 Route::put('/products/{product}',
     [ProductController::class,'update'])
     ->name('user.products.update');
+
+Route::post('/products',
+    [ProductController::class,'store'])
+    ->name('user.products.store');
 
 Route::get('/products/create',
     [ProductController::class,'create'])

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\EditProductRequest;
 use App\Http\Requests\User\Product\UserProductStoreRequest;
 use App\Http\Requests\User\Product\UserProductUpdateRequest;
 use App\Http\Resources\User\Product\ProductIndexResource;
@@ -34,15 +33,16 @@ class ProductController extends Controller
 
     public function create(): Factory|View|Application
     {
-        return view('user/product/create');
+        $categories = Category::all();
+        return view('user/product/create',compact('categories'));
     }
 
     public function store(UserProductStoreRequest $request): Factory|View|Application
     {
         $data = $request->validated();
-        $product = ProductService::store($data)->resolve();
-        $resourceProduct = UserProductStoreResource::make($product)->resolve();
-        return view('user/product/index', compact('resourceProduct'));
+        $newProduct = ProductService::store($data);
+        $product = UserProductStoreResource::make($newProduct)->resolve();
+        return view('user/product/show', compact('product'));
 
     }
 

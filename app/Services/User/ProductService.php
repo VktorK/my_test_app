@@ -12,7 +12,7 @@ class ProductService
         return Product::all();
     }
 
-    public static function store(array $data): UserProductStoreResource
+    public static function store(array $data): Product
     {
         return Product::create($data);
     }
