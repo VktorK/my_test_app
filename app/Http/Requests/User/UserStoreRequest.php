@@ -23,13 +23,15 @@ class UserStoreRequest extends FormRequest
         ];
     }
 
-    protected function passedValidation(): void
+    protected function passedValidation()
     {
         $this->merge([
-            'first_name'=> $this->first_name,
-            'last_name'=> $this->last_name,
-            'email'=> $this->email,
             'password' => Hash::make($this->password),
         ]);
+
+        $data = $this->except('re_password');
+
+        $this->replace($data);
     }
+
 }

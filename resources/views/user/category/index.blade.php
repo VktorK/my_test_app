@@ -24,11 +24,11 @@
                             <td class="text-center" onclick="window.location='{{ route('user.products.show', $category['id']) }}'" style="cursor: pointer;">{{$category['title']}}</td>
 {{--                            @if(auth()->user()->role->title == 'admin')--}}
                             <td class="text-center actions">
-                                <a href="{{ route('submit.form', $category['id']) }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i>Обновить</a>
+                                <a href="{{ route('home') }}" class="btn btn-primary btn-sm"><i class="fas fa-edit"></i>Обновить</a>
                             </td>
 
                             <td class="text-center">
-                                <form action="{{ route('submit.form', $category['id']) }}" method="POST" onsubmit="return confirm('Вы уверены, что хотите удалить эту категорию?');" style="display: inline;">
+                                <form action="{{ route('home') }}" method="POST" onsubmit="return confirm('Вы уверены, что хотите удалить эту категорию?');" style="display: inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger btn-sm" style="cursor: pointer;"><i class="fas fa-trash"></i> Удалить</button>
@@ -41,7 +41,7 @@
                 </tbody>
             </table>
             <div class="text-center">
-                <a href="{{ route('submit.form') }}" class="btn btn-success">Добавить новую категорию</a>
+                <a href="{{ route('home') }}" class="btn btn-success">Добавить новую категорию</a>
             </div>
         </div>
     </div>

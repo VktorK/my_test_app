@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\User\CategoryController;
 use App\Http\Controllers\User\ProductController;
 use App\Http\Controllers\UserController;
@@ -18,21 +19,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-})->name('welcome');
+})->name('home');
 
-Route::get('/jquery', function () {
-    return view('jquery');
-});
 
 Route::get('/users/register',[UserController::class,'create'])->name('user.register');
-Route::get('/users/login',[UserController::class,'login'])->name('user.login');
+//Route::get('/users/login',[UserController::class,'login'])->name('user.login');
 Route::post('/users/login',[UserController::class,'store'])->name('user.store');
-Route::get('/',[UserController::class,'logout'])->name('user.logout');
+Route::post('/logout',[UserController::class,'logout'])->name('user.logout');
 
+Route::get('/login/form', [AuthController::class, 'showLoginPage'])->name('user.login.form');
+Route::post('/login', [AuthController::class, 'login']);
 
-Route::get('/registerUser', function () {
-    echo '1111111';
-})->name('submit.form');
 
 Route::get('/products/index',
     [ProductController::class,'index'])
@@ -66,3 +63,7 @@ Route::get('/categories/index',
     [CategoryController::class,'index'])
     ->name('user.categories.index');
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

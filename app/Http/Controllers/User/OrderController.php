@@ -3,69 +3,65 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\User\Product\UserProductStoreRequest;
-use App\Http\Requests\User\Product\UserProductUpdateRequest;
-use App\Http\Resources\User\Product\ProductIndexResource;
-use App\Http\Resources\User\Product\UserProductStoreResource;
+use App\Http\Requests\User\Order\UserOrderStoreRequest;
+use App\Http\Requests\User\Order\UserOrderUpdateRequest;
+use App\Http\Resources\User\Order\OrderIndexResource;
+use App\Http\Resources\User\Order\UserOrderStoreResource;
 use App\Http\Resources\User\Product\UserProductUpdateResource;
-use App\Models\Category;
-use App\Models\Product;
+use App\Models\Order;
 use App\Services\User\OrderService;
-use App\Services\User\ProductService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
     public function index(): Factory|View|Application
     {
-        $products = OrderService::index();
-        $productResource = OrderIndexResource::collection($products)->resolve();
-        return view('user/product/index', compact('productResource'));
+        $order = OrderService::index();
+        $orderResource = OrderIndexResource::collection($order)->resolve();
+        return view('user/order/index', compact('orderResource'));
     }
 
-    public function show(Product $product): Factory|View|Application
+    public function show(Order $order): Factory|View|Application
     {
-        $product = ProductIndexResource::make($product)->resolve();
-        return view('user/product/show', compact('product'));
+        $order = OrderIndexResource::make($order)->resolve();
+        return view('user/order/show', compact('order'));
     }
 
     public function create(): Factory|View|Application
     {
-        return view('user/product/create');
+        return view('user/order/create');
     }
 
-    public function store(UserProductStoreRequest $request): Factory|View|Application
+    public function store(UserOrderStoreRequest $request): Factory|View|Application
     {
         $data = $request->validated();
-        $product = ProductService::store($data)->resolve();
-        $resourceProduct = UserProductStoreResource::make($product)->resolve();
-        return view('user/product/index', compact('resourceProduct'));
+        $order = OrderService::store($data)->resolve();
+        $resourceOrder = UserOrderStoreResource::make($order)->resolve();
+        return view('user/product/index', compact('resourceOrder'));
 
     }
 
     public function edit($id): Factory|View|Application
     {
-        $product = Product::findOrFail($id);
-        $categories = Category::all();
-        return view('user/product/edit', compact('product', 'categories'));
+        $order = Order::findOrFail($id);
+        return view('user/order/edit', compact('order'));
 
     }
 
-    public function update(UserProductUpdateRequest $request,Product $product,): RedirectResponse
+    public function update(UserOrderUpdateRequest $request,Order $order,): RedirectResponse
     {
         $data = $request->validated();
-        $product = ProductService::update($product, $data);
-        $resourceProduct = UserProductUpdateResource::make($product)->resolve();
-        return redirect()->route('user.product.index',compact('resourceProduct'))->with('success', 'Продукт успешно обновлён');
+        $order = OrderService::update($order, $data);
+        $resourceOrder = UserProductUpdateResource::make($order)->resolve();
+        return redirect()->route('user.product.index',compact('resourceOrder'))->with('success', 'Продукт успешно обновлён');
     }
 
-    public function destroy(Product $product): RedirectResponse
+    public function destroy(Order $product): RedirectResponse
     {
-        ProductService::destroy($product);
-        return redirect()->route('user.product.index');
+        OrderService::destroy($product);
+        return redirect()->route('user.order.index');
     }
 }

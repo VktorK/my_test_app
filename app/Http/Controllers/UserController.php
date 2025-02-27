@@ -25,16 +25,14 @@ class UserController extends Controller
     public function store(UserStoreRequest $request)
     {
         try {
-            $data = $request->validated();
+            $data = $request->validationData();
+
             $user = User::create($data);
 
-            // Автоматический вход после создания пользователя
-            Auth::login($user);
 
-            // Перенаправление на нужную страницу
             return redirect()->route('welcome')->with('success', 'Вы успешно зарегистрированы и вошли в систему!');
         } catch (\Exception $e) {
-            return redirect()->route('welcome')->with('danger', $e->getMessage());
+            return redirect()->route('home')->with('danger', $e->getMessage());
         }
     }
 }

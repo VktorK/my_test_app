@@ -7,7 +7,7 @@
             <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
                 <ul class="navbar-nav fs-5">
                     <li class="nav-item">
-                        <a href="{{ route('welcome') }}" class="nav-link active" aria-current="page">Home</a>
+                        <a href="{{ route('home') }}" class="nav-link active" aria-current="page">Home</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('user.product.index') }}">Products</a>
