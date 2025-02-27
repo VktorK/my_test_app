@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\User\CategoryController;
 use App\Http\Controllers\User\ProductController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +27,7 @@ Route::get('/register', function () {
     return view('register');
 });
 
-Route::post('/registerUser', function () {
+Route::get('/registerUser', function () {
     echo '1111111';
 })->name('submit.form');
 
@@ -41,4 +42,20 @@ Route::get('/products/{product}/edit',
 Route::put('/products/{product}',
     [ProductController::class,'update'])
     ->name('user.products.update');
+
+Route::get('/products/create',
+    [ProductController::class,'create'])
+    ->name('user.products.create');
+
+Route::get('/products/{product}',
+    [ProductController::class,'show'])
+    ->name('user.products.show');
+
+Route::delete('/products/{product}',
+    [ProductController::class,'destroy'])
+    ->name('user.products.destroy');
+
+Route::get('/categories/index',
+    [CategoryController::class,'index'])
+    ->name('user.categories.index');
 

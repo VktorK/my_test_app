@@ -15,9 +15,7 @@ use App\Services\User\ProductService;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class ProductController extends Controller
 {
@@ -26,6 +24,12 @@ class ProductController extends Controller
         $products = ProductService::index();
         $productResource = ProductIndexResource::collection($products)->resolve();
         return view('user/product/index', compact('productResource'));
+    }
+
+    public function show(Product $product): Factory|View|Application
+    {
+        $product = ProductIndexResource::make($product)->resolve();
+        return view('user/product/show', compact('product'));
     }
 
     public function create(): Factory|View|Application
@@ -58,14 +62,9 @@ class ProductController extends Controller
         return redirect()->route('user.product.index',compact('resourceProduct'))->with('success', 'Продукт успешно обновлён');
     }
 
-    public function destroy(Product $product): JsonResponse
+    public function destroy(Product $product): RedirectResponse
     {
-
-        ProductService::destroy($product);
-        return response()->json([
-            "message" => "Продукт удален"
-        ], ResponseAlias::HTTP_OK);
+            ProductService::destroy($product);
+            return redirect()->route('user.product.index');
     }
-
-
 }
